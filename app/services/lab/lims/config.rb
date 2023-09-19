@@ -82,7 +82,7 @@ module Lab
           paths = [
             "#{ENV['HOME']}/apps/nlims_controller/config/#{filename}",
             "/var/www/nlims_controller/config/#{filename}",
-            Rails.root.parent.join("nlims_controller/config/#{filename}")
+            "#{Rails.root}/config/#{filename}"
           ]
 
           paths = [Rails.root.join('config/lims-couchdb.yml'), *paths] if filename == 'couchdb.yml'
