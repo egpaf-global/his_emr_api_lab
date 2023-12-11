@@ -19,7 +19,7 @@ module Lab
         ActiveRecord::Base.transaction do
           test = Lab::LabTest.find(test_id)
           encounter = find_encounter(test, encounter_id: params[:encounter_id],
-                                           date: params[:date]&.to_date,
+                                           date: params[:date]&.to_datetime,
                                            provider_id: params[:provider_id])
 
           results_obs = create_results_obs(encounter, test, params[:date], params[:comments])
