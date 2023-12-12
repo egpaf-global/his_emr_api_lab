@@ -19,7 +19,7 @@ module Lab
         ActiveRecord::Base.transaction do
           test = Lab::LabTest.find(test_id)
           encounter = find_encounter(test, encounter_id: params[:encounter_id],
-                                           date: params[:date]&.to_datetime,
+                                           date: params[:date]&.to_date,
                                            provider_id: params[:provider_id])
 
           results_obs = create_results_obs(encounter, test, params[:date], params[:comments])
@@ -53,10 +53,21 @@ module Lab
           concept_id: test_result_concept.concept_id,
           order_id: test.order_id,
           obs_group_id: test.obs_id,
-          obs_datetime: date&.to_datetime || DateTime.now,
+          obs_datetime: patch_date(date) || DateTime.now,
           comments: comments
         )
       end
+
+
+    def patch_date(date)
+      d=Date.parse(date)
+      t = Time.now
+      return  DateTime.new(d.year, d.month, d.day, t.hour-1, t.min, t.sec)
+    end
+      
+    
+
+
 
       def void_existing_results_obs(encounter, test)
         result = Lab::LabResult.find_by(person_id: encounter.patient_id,
